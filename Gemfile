@@ -13,6 +13,9 @@ gem 'authlogic'
 #For layout
 gem 'nifty-generators', '>= 0.4.0'
 
+#For mail
+gem "mail", "2.2.15"
+
 # Use unicorn as the web server
 # gem 'unicorn'
 

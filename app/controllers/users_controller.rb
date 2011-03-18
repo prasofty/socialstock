@@ -14,7 +14,8 @@ class UsersController < ApplicationController
     if @user.save
       flash[:notice] = "User sign up successfully!"
       #TODO User Activation code     
-      #Notifier.welcome_email(@user).deliver
+      user = {:email => @user.email, :login => @user.login}
+      Notifier.welcome_email(user).deliver
       redirect_back_or_default user_path(@user.id)
     else
       render :action => :new

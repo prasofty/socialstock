@@ -1,8 +1,8 @@
-Welcome to example.com, <%= @user.name %>
+Welcome to example.com, <%= @user_email[:login] %>
 ===============================================
  
-You have successfully signed up to example.com,
-your username is: <%= @user.login %>.
+You have successfully signed up to <%= @web_site%>,
+your username is: <%= @user_email[:login] %>.
  
 To login to the site, just follow this link: <%= @url %>.
  

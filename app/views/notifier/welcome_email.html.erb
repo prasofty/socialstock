@@ -5,9 +5,9 @@
 		<title>Untitled Document</title>
 	</head>
 	<body>
-		<h1>Welcome to our site, <%= @user.login%></h1>
+		<h1>Welcome to our site, <%= @user_email[:login]%></h1>
 		<p>
-			You have successfully signed up to example.com, your username is: <%= @user.login%>.<br/>
+			You have successfully signed up to <b><%= @web_site%></b>, your username is: <%= @user_email[:login]%>.<br/>
 		</p>
 		<p>
 			To login to the site, just follow this link: <%= @url%>.

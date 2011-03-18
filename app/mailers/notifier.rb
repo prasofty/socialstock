@@ -1,17 +1,18 @@
 class Notifier < ActionMailer::Base
-  default :from => "from@example.com"
-  default_url_options[:host] = "localhost.com:3000"
+  default :from => "prasanna548@gmail.com"  
   
-  def welcome_email(user)
-    @user = user
+  def welcome_email(user)    
+    @user_email = user
     @url = root_url
-    mail(:to => user.email,
+    
+    @web_site = WEB_SITE
+    
+    mail(:to => @user_email[:email],
          :subject => "Welcome to the site")
   end
   
   def password_reset_instruction(user)
-    subject "Password Reset Instructions"
-    from "noreplay@example.com"
+    subject "Password Reset Instructions"    
     recipients user.email
     context_type "text/html"
     sent_on Time.now

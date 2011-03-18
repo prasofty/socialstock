@@ -37,6 +37,17 @@ module Socialstock
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password]
+    config.filter_parameters += [:password, :password_confirmation]    
+    
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      :address              => "smtp.gmail.com",
+      :port                 => 587,
+      :domain               => 'startupsourcing.com',
+      :user_name            => 'prasanna548',
+      :password             => 'prasanna',
+      :authentication       => 'plain',
+      :enable_starttls_auto => true  
+    } 
   end
 end
