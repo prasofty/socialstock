@@ -1,14 +1,16 @@
 class Notifier < ActionMailer::Base
-  default :from => "prasanna548@gmail.com"  
+  default :from => "prasanna548@gmail.com"
   
-  def welcome_email(user)    
-    @user_email = user
-    @url = root_url
-    
-    @web_site = WEB_SITE
-    
-    mail(:to => @user_email[:email],
-         :subject => "Welcome to the site")
+  def activation_instructions(user)    
+    @account_activation_url = activate_url(user[:perishable_token])
+    mail(:recipients => user[:email],
+         :subject => "Activation Instructions #{WEB_SITE}")
+  end
+  
+  def welcome_email(user)
+    subject "Welcome to the site! #{WEB_SITE}"
+    recipients    user.email   
+    body          :root_url => root_url, :username => user.login, :website => WEB_SITE
   end
   
   def password_reset_instruction(user)

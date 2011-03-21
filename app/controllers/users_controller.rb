@@ -11,12 +11,18 @@ class UsersController < ApplicationController
   
   def create
     @user = User.new(params[:user])
-    if @user.save
-      flash[:notice] = "User sign up successfully!"
-      #TODO User Activation code     
-      user = {:email => @user.email, :login => @user.login}
-      Notifier.welcome_email(user).deliver
-      redirect_back_or_default user_path(@user.id)
+    if @user.save_without_session_maintenance
+      flash[:notice] = "User sign up successfully! Please check your mail and follow instructions in that mail."      
+      #User Activation code      
+      @user.devliver_activation_instructions!
+      user = {:email => @user.email, :perishable_token => @user.perishable_token}
+      if ENV['RAILS_ENV'] == "development"        
+        activation_mail = Notifier.activation_instructions(user)
+        logger.debug activation_mail
+      elsif ENV['RAILS_ENV'] == "production"
+        Notifier.activation_instructions(user).deliver      
+    end
+      redirect_to root_url
     else
       render :action => :new
     end

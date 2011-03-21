@@ -13,18 +13,19 @@
 ActiveRecord::Schema.define(:version => 20110317064916) do
 
   create_table "users", :force => true do |t|
-    t.string   "login",                             :null => false
-    t.string   "email",                             :null => false
-    t.string   "crypted_password",                  :null => false
-    t.string   "password_salt",                     :null => false
-    t.string   "persistence_token",                 :null => false
-    t.string   "perishable_token",                  :null => false
+    t.string   "login",                                 :null => false
+    t.string   "email",                                 :null => false
+    t.string   "crypted_password",                      :null => false
+    t.string   "password_salt",                         :null => false
+    t.string   "persistence_token",                     :null => false
+    t.string   "perishable_token",                      :null => false
     t.integer  "login_count",        :default => 0
     t.integer  "failed_login_count", :default => 0
     t.datetime "current_login_at"
     t.datetime "last_login_at"
     t.string   "current_login_ip"
     t.string   "last_login_ip"
+    t.boolean  "active",             :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

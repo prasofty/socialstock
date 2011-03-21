@@ -9,12 +9,14 @@ Socialstock::Application.routes.draw do
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
+  match '/activate_account/:activation_code' => 'activations#create', :as => :activate
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
   resources :user_sessions
   resources :users
   resources :password_resets, :only => [:new, :create, :edit, :update]
+  #resources :activations
   
   # Sample resource route with options:
   #   resources :products do
