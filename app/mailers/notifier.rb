@@ -8,9 +8,11 @@ class Notifier < ActionMailer::Base
   end
   
   def welcome_email(user)
-    subject "Welcome to the site! #{WEB_SITE}"
-    recipients    user.email   
-    body          :root_url => root_url, :username => user.login, :website => WEB_SITE
+    @root_url = root_url
+    @username = user.login
+    @website = WEB_SITE
+    mail(:to => user.email,
+         :subject => "Welcome to the site! #{WEB_SITE}")
   end
   
   def password_reset_instruction(user)
