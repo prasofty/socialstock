@@ -22,13 +22,10 @@ class PasswordResetsController < ApplicationController
 
   def update    
     @user.password = params[:password]
-    # Only if your are using password confirmation
-    # @user.password_confirmation = params[:password]    
-    if @user.save
-      logger.debug "#### password_reset 29"
-      flash[:success] = "Your password was successfully updated"
-      logger.debug "#### password_reset"
-      redirect_to user_path(current_user)
+    @user.password_confirmation = params[:password]    
+    if @user.save      
+      flash[:success] = "Your password was successfully updated"    
+      redirect_to user_path(@user.id)
     else
       render :action => :edit
     end

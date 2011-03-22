@@ -1,5 +1,7 @@
 <% title 'Sign Up'%>
-
+<p>
+	Already register? <%= link_to "Sign In", new_user_session_path%> | Not received activation mail <%= link_to "Click here", "#"%> 
+</p>
 <%= form_for @user, :url => users_path do |f| %>
   <%= f.error_messages %>
   <%= render :partial => "form", :object => f %>

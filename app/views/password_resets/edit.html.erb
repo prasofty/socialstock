@@ -2,7 +2,8 @@
 
 <p>Please enter the new password below and then press "Update Password".</p>
 
-<% form_tag password_reset_path, :method => :put do %>
+<%= form_tag password_reset_path, :method => :put do %>
+  <%= error_messages_for @user%>	
   <%= password_field_tag :password %>
   <%= submit_tag "Update Password" %>
 <% end %>
