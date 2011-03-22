@@ -18,6 +18,8 @@ Socialstock::Application.routes.draw do
     collection do 
       get 'change_password'
       post 'password_update'
+      get 'resend_activation'
+      post 'resent_activation'
     end
   end
   resources :password_resets, :only => [:new, :create, :edit, :update]

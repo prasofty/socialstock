@@ -1,0 +1,10 @@
+<% title 'Resend Activation'%>
+
+<p>Enter your email address to get activation mail.</p>
+<%= form_tag resent_activation_users_path, :method => :post do%>
+	<p>
+		<%= label_tag :email%>
+		<%= text_field_tag :email%>
+		<%= submit_tag "Send Activation" %>
+	</p>
+<% end%>

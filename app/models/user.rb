@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   attr_accessible :login, :email, :password, :password_confirmation
   
   acts_as_authentic do |c|
-    c.merge_validates_length_of_password_field_options({:minimum => 6})
+    c.merge_validates_length_of_password_field_options({:minimum => 6})    
   end 
   
   def self.find_by_username_or_email(login)

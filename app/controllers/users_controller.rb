@@ -1,5 +1,5 @@
 class UsersController < ApplicationController  
-  before_filter :require_user, :only => [:show, :edit, :update]
+  before_filter :require_user, :only => [:show, :edit, :update] 
   
   def index
     
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
         logger.debug activation_mail
       elsif ENV['RAILS_ENV'] == "production"
         Notifier.activation_instructions(user).deliver      
-    end
+      end
       redirect_to root_url
     else
       render :action => :new
@@ -75,4 +75,34 @@ class UsersController < ApplicationController
     end            
   end  
   
+  def resend_activation
+        
+  end 
+  
+  def resent_activation
+    @user = User.find_by_email(params[:email])
+    if !@user.nil? 
+      if @user.active?
+        flash[:notice] = "Already Your account activated. Please Sign In."
+        redirect_to root_path
+      else
+        #User Activation code
+        @user.devliver_activation_instructions!
+        user = {:email => @user.email, :perishable_token => @user.perishable_token}
+        if ENV['RAILS_ENV'] == "development"
+          activation_mail = Notifier.activation_instructions(user)
+          logger.debug activation_mail
+        elsif ENV['RAILS_ENV'] == "production"
+          Notifier.activation_instructions(user).deliver      
+        end
+        
+        flash[:notice] = "Activation mail sent, Please check your mail and follow instructions in that mail."
+        redirect_to root_path        
+      end      
+    else
+      flash[:error] = "We're sorry, but we could not locate your account."
+      render :action => :resend_activation
+    end
+    
+  end
 end
