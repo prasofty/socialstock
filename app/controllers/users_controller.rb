@@ -45,4 +45,34 @@ class UsersController < ApplicationController
       render :action => :edit
     end
   end
+  
+  def change_password
+    @user = User.find_by_id(current_user) 
+  end
+  
+  def password_update
+    @user = current_user    
+        
+    if @user.valid_password?(params[:old_password])
+      if params[:password].length < 6
+        flash[:error] = "New password should more then 6 characters"
+        render :action => :change_password
+      else
+        if params[:password] != params[:password_confirmation]
+          flash[:error] = "New password and confirm password should be same."
+          render :action => :change_password
+        else
+          @user.password = params[:password]
+          @user.password_confirmation = params[:password] 
+          @user.save
+          flash[:notice] = "Password changed successfully."          
+          redirect_to user_path(current_user)
+        end        
+      end              
+    else      
+      flash[:error] = "Enter Correct password."
+      render :action => :change_password
+    end            
+  end  
+  
 end

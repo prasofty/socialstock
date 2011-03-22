@@ -1,5 +1,5 @@
 class PasswordResetsController < ApplicationController
-  before_filter :require_no_user
+  before_filter :require_no_user  
   before_filter :load_user_using_perishable_token, :only => [ :edit, :update ]
   
   def new
@@ -8,10 +8,9 @@ class PasswordResetsController < ApplicationController
   def create
     @user = User.find_by_email(params[:email])
     if @user
-      reset_user = @user.deliver_password_reset_instructions!
-      @reset_url = edit_password_reset_url(reset_user.perishable_token)
+      @user.deliver_password_reset_instructions!      
       flash[:notice] = "Instructions to reset your password have been emailed to you"
-      #redirect_to root_path
+      redirect_to root_path
     else
       flash.now[:error] = "No user was found with email address #{params[:email]}"
       render :action => :new
@@ -21,9 +20,7 @@ class PasswordResetsController < ApplicationController
   def edit
   end
 
-  def update
-    logger.debug "#### 25"
-    logger.debug @user.to_yaml
+  def update    
     @user.password = params[:password]
     # Only if your are using password confirmation
     # @user.password_confirmation = params[:password]    

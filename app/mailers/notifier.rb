@@ -15,7 +15,7 @@ class Notifier < ActionMailer::Base
          :subject => "Welcome to the site! #{WEB_SITE}")
   end
   
-  def password_reset_instruction(user)
+  def password_reset_instructions(user)
     subject "Password Reset Instructions"    
     recipients user.email
     context_type "text/html"

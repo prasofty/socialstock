@@ -30,9 +30,12 @@ class User < ActiveRecord::Base
   end
   
   def deliver_password_reset_instructions!
-    reset_perishable_token! 
-    self
-    #TODO Need to fix email deliver
-    #Notifier.password_reset_instructions(self).deliver
+    reset_perishable_token!
+    if ENV['RAILS_ENV'] == "development"
+      reset_password = Notifier.password_reset_instructions(self)
+      logger.debug reset_password
+    else
+      Notifier.password_reset_instructions(self).deliver      
+    end
   end
 end

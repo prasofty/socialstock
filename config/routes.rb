@@ -14,7 +14,12 @@ Socialstock::Application.routes.draw do
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
   resources :user_sessions
-  resources :users
+  resources :users do
+    collection do 
+      get 'change_password'
+      post 'password_update'
+    end
+  end
   resources :password_resets, :only => [:new, :create, :edit, :update]
   #resources :activations
   
