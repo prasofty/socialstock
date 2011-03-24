@@ -23,7 +23,11 @@ Socialstock::Application.routes.draw do
     end
   end
   resources :password_resets, :only => [:new, :create, :edit, :update]
-  #resources :activations
+  
+  resources :authentications
+  match '/auth/:provider/callback' => 'authorizations#create'
+  match '/auth/failure' => 'authorizations#failure'
+
   
   # Sample resource route with options:
   #   resources :products do

@@ -10,14 +10,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110317064916) do
+ActiveRecord::Schema.define(:version => 20110323062229) do
+
+  create_table "authorizations", :force => true do |t|
+    t.string   "provider"
+    t.string   "uid"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
-    t.string   "login",                                 :null => false
-    t.string   "email",                                 :null => false
-    t.string   "crypted_password",                      :null => false
-    t.string   "password_salt",                         :null => false
-    t.string   "persistence_token",                     :null => false
+    t.string   "login"
+    t.string   "email"
+    t.string   "crypted_password"
+    t.string   "password_salt"
+    t.string   "persistence_token"
     t.string   "perishable_token",                      :null => false
     t.integer  "login_count",        :default => 0
     t.integer  "failed_login_count", :default => 0
@@ -26,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20110317064916) do
     t.string   "current_login_ip"
     t.string   "last_login_ip"
     t.boolean  "active",             :default => false, :null => false
+    t.boolean  "social_login",       :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

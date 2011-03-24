@@ -9,6 +9,7 @@ gem 'sqlite3'
 
 #For authentication 
 gem 'authlogic'
+gem 'omniauth'
 
 #For layout
 gem 'nifty-generators', '>= 0.4.0'

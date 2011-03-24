@@ -34,6 +34,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = @current_user
+    @authorizations = current_user.authorizations if current_user
   end
   
   def update

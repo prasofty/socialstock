@@ -20,3 +20,10 @@
   	<%= link_to "Reset Password", new_password_reset_path %>
   </p>	
 <% end %>
+
+<h2>OR</h2>
+<h3>Sign in with</h3>
+<% ["twitter","facebook", "linked_in"].each do |provider| %>
+  <%= link_to image_tag("auth/#{provider}_64.png"), "/auth/#{provider}" %>
+<% end %>
+<%= link_to image_tag("auth/google_64.png"), "/auth/open_id?openid_url=https://www.google.com/accounts/o8/id" %>

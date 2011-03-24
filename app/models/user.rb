@@ -2,9 +2,26 @@ class User < ActiveRecord::Base
   
   attr_accessible :login, :email, :password, :password_confirmation
   
+  has_many :authorizations, :dependent => :destroy
+  
   acts_as_authentic do |c|
-    c.merge_validates_length_of_password_field_options({:minimum => 6})    
-  end 
+    c.merge_validates_length_of_password_field_options({:minimum => 6})
+    c.ignore_blank_passwords = true
+  end
+  
+  #here we add required validations for a new record and pre-existing record
+  validate do |user|
+    if user.new_record? #adds validation if it is a new record
+      user.errors.add(:password, "is required") if user.password.blank? 
+      user.errors.add(:password_confirmation, "is required") if user.password_confirmation.blank?
+      user.errors.add(:password, "Password and confirmation must match") if user.password != user.password_confirmation
+    elsif !(!user.new_record? && user.password.blank? && user.password_confirmation.blank?) #adds validation only if password or password_confirmation are modified
+      user.errors.add(:password, "is required") if user.password.blank?
+      user.errors.add(:password_confirmation, "is required") if user.password_confirmation.blank?
+      user.errors.add(:password, " and confirmation must match.") if user.password != user.password_confirmation
+      user.errors.add(:password, " and confirmation should be atleast 6 characters long.") if user.password.length < 6 || user.password_confirmation.length < 6
+    end
+  end
   
   def self.find_by_username_or_email(login)
     self.find_by_login(login) || self.find_by_email(login)    
@@ -37,5 +54,13 @@ class User < ActiveRecord::Base
     else
       Notifier.password_reset_instructions(self).deliver      
     end
+  end
+  
+  def self.create_from_hash(hash)        
+    user = User.new({:login => hash['user_info']['name'].to_s.downcase, :social_login => true})
+    user.save(false)
+    user.activate!
+    user.reset_persistence_token! #set persistence_token else sessions will not be created
+    user
   end
 end
