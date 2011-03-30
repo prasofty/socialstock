@@ -1,0 +1,54 @@
+<div style="padding-top:20px;">
+	<div>
+		<%= link_to 'Get Facebook friends', get_facebook_friends_friends_path%>
+	</div><br><br>
+	<div>		
+		<fieldset>			
+			<legend>
+				Current Status
+			</legend>
+			<% if !fb_status.nil?%>
+			<table border='1px'>
+				<tr>
+					<td><b>Facebook Status id</b></td><td><%= fb_status.facebook_status_id%></td>
+				</tr>
+				<tr>
+					<td><b>Name</b></td><td><%= fb_status.name%></td>
+				</tr>
+				<tr>
+					<td><b>Link</b></td><td><%= fb_status.link%></td>
+				</tr>
+				<tr>
+					<td><b>Caption</b></td><td><%= fb_status.caption%></td>
+				</tr>
+				<tr>
+					<td><b>Description</b></td><td><%= fb_status.description%></td>
+				</tr>
+				<tr>
+					<td><b>Source</b></td><td><%= fb_status.source%></td>
+				</tr>
+				<tr>
+					<td><b>Type</b></td><td><%= fb_status.status_type%></td>
+				</tr>
+			</table>
+			<% else%>
+			<div>You are not logged using facebook</div>
+			<% end%>
+		</fieldset>
+	</div>
+	<div>
+		<h3>Friends List</h3>
+		<table border='1px'>
+			<tr>
+				<td>Facebook Uid</td>
+				<td>Name</td>
+			</tr>
+			<% for fb_friend in fb_friends %>
+			<tr>
+				<td><%= fb_friend.facebook_uid%></td>
+				<td><%= fb_friend.name%></td>
+			</tr>
+			<% end%>
+		</table>
+	</div>
+</div>

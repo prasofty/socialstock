@@ -10,12 +10,53 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110323062229) do
+ActiveRecord::Schema.define(:version => 20110330082917) do
 
   create_table "authorizations", :force => true do |t|
+    t.integer  "user_id"
     t.string   "provider"
     t.string   "uid"
-    t.integer  "user_id"
+    t.string   "token"
+    t.string   "secret"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "facebook_friends", :force => true do |t|
+    t.integer  "user_id",                                     :null => false
+    t.decimal  "facebook_uid", :precision => 30, :scale => 0, :null => false
+    t.string   "name",                                        :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "facebook_statuses", :force => true do |t|
+    t.integer  "user_id",                               :null => false
+    t.string   "facebook_status_id",                    :null => false
+    t.string   "name"
+    t.string   "link"
+    t.string   "caption"
+    t.text     "description"
+    t.string   "source"
+    t.string   "status_type"
+    t.boolean  "deteled",            :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "twitter_followers", :force => true do |t|
+    t.integer  "user_id",                                    :null => false
+    t.decimal  "twitter_id",  :precision => 30, :scale => 0, :null => false
+    t.string   "name"
+    t.string   "screen_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "twitter_statuses", :force => true do |t|
+    t.integer  "user_id",                                          :null => false
+    t.decimal  "twitter_status_id", :precision => 30, :scale => 0, :null => false
+    t.string   "text"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

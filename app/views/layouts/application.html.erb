@@ -15,7 +15,8 @@
 				<%= link_to "Sign In", new_user_session_path %> |
 			<% else %>
 				<%= link_to "My Account", user_path(current_user) %> |
-				<%= link_to "Change Password", change_password_users_path%> |
+				<% if auth_provider.nil? %><%= link_to "Change Password", change_password_users_path %> |<% end%>				
+				<% if !auth_provider.nil? %><%= link_to "Friends", friends_path %> |<% end%>
 				<%= link_to "Sign out", user_session_path(current_user), :method => :delete, :confirm => "Are you sure you want to signout?" %>
 			<% end %>
   		</div>

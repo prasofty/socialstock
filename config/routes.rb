@@ -24,6 +24,15 @@ Socialstock::Application.routes.draw do
   end
   resources :password_resets, :only => [:new, :create, :edit, :update]
   
+  resources :friends do 
+    collection do
+      get 'get_facebook_friends'
+      get 'get_facebook_status'
+      get 'get_twitter_followers'
+    end
+  end
+  
+  
   resources :authentications
   match '/auth/:provider/callback' => 'authorizations#create'
   match '/auth/failure' => 'authorizations#failure'

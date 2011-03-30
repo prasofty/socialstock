@@ -1,0 +1,36 @@
+<div style="padding-top:20px;">
+	<div>
+		<%= link_to 'Get Twitter followers', get_twitter_followers_friends_path%>
+	</div><br><br>
+	<div>
+		<fieldset>			
+			<legend>
+				Current Status
+			</legend>
+			<% if !t_status.nil?%>
+			<div>
+				<h4><%= t_status.text %></h4>
+			</div>
+			<% else%>
+			<div>you are not logged using twitter</div>
+			<% end%>
+		</fieldset>
+	</div>
+	<div id='followers'>
+		<h3>Followers List</h3>
+		<table border='1px'>
+			<tr>
+				<td>Twitter id</td>
+				<td>Name</td>
+				<td>Screen Name</td>
+			</tr>
+			<% for follower in followers %>
+			<tr>
+				<td><%= follower.twitter_id%></td>
+				<td><%= follower.name%></td>
+				<td><%= follower.screen_name%></td>
+			</tr>
+			<% end%>
+		</table>
+	</div>
+</div>

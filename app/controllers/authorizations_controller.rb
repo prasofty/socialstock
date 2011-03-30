@@ -2,7 +2,7 @@ class AuthorizationsController < ApplicationController
   before_filter :require_user, :only => [:destroy]
   
   def create
-    omniauth = request.env['omniauth.auth']    
+    omniauth = request.env['omniauth.auth']
     @auth = Authorization.find_from_hash(omniauth)    
     if current_user
       flash[:notice] = "Successfully added #{omniauth['provider']} authentication"
@@ -10,11 +10,15 @@ class AuthorizationsController < ApplicationController
     elsif @auth
       flash[:notice] = "Welcome back #{omniauth['provider']} user"
       UserSession.create(@auth.user, true)
+      #update token and secret
+      @auth.update_attributes({:token =>(omniauth['credentials']['token'] rescue nil), :secret => (omniauth['credentials']['secret'] rescue nil)})
+            
     else  
       @auth = Authorization.create_from_hash(omniauth, current_user)
       flash[:notice] = "Welcome #{omniauth['provider']} user. Your account has been created."
       UserSession.create(@auth.user, true)
-    end 
+    end
+    
     redirect_to user_path(@auth.user.id)
   end
     

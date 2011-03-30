@@ -1,8 +1,16 @@
+require 'facebook'
+
 class User < ActiveRecord::Base
   
   attr_accessible :login, :email, :password, :password_confirmation
   
-  has_many :authorizations, :dependent => :destroy
+  has_one :authorization, :dependent => :destroy
+  
+  has_many :facebook_friends
+  has_one :facebook_status
+  
+  has_many :twitter_followers
+  has_one :twitter_status
   
   acts_as_authentic do |c|
     c.merge_validates_length_of_password_field_options({:minimum => 6})
@@ -56,6 +64,7 @@ class User < ActiveRecord::Base
     end
   end
   
+  #social login user
   def self.create_from_hash(hash)        
     user = User.new({:login => hash['user_info']['name'].to_s.downcase, :social_login => true})
     user.save(false)
@@ -63,4 +72,18 @@ class User < ActiveRecord::Base
     user.reset_persistence_token! #set persistence_token else sessions will not be created
     user
   end
+  
+  def facebook          
+    @fb_user ||= FbGraph::User.me(self.authorizations.find_by_provider('facebook').token)
+  end
+  
+  def twitter
+    unless @twitter_user
+      provider = self.authorizations.find_by_provider('twitter')
+      @twitter_user = Twitter::Client.new(:oauth_token => provider.token, :oauth_token_secret => provider.secret) rescue nil
+    end
+    @twitter_user
+end
+  
+  
 end
