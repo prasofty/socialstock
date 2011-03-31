@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
   
   def activate!
     self.active = true
-    save
+    save(false)
   end
   
   def devliver_activation_instructions!    
