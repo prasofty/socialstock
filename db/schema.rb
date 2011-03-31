@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(:version => 20110330082917) do
     t.string   "crypted_password"
     t.string   "password_salt"
     t.string   "persistence_token"
-    t.string   "perishable_token",                      :null => false
+    t.string   "perishable_token"
     t.integer  "login_count",        :default => 0
     t.integer  "failed_login_count", :default => 0
     t.datetime "current_login_at"
