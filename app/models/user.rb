@@ -28,6 +28,11 @@ class User < ActiveRecord::Base
       user.errors.add(:password_confirmation, "is required") if user.password_confirmation.blank?
       user.errors.add(:password, " and confirmation must match.") if user.password != user.password_confirmation
       user.errors.add(:password, " and confirmation should be atleast 6 characters long.") if user.password.length < 6 || user.password_confirmation.length < 6
+    elsif user.social_login            
+      user.errors.clear
+      user.errors.add(:email, "is required.") if user.email.blank?
+      user.errors.add(:email, "is atleast 6 characters long.") if user.email.length < 6
+      user.errors.add(:email, "is should be in email format.") if !user.validates_format_of(:email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i)      
     end
   end
   
@@ -66,7 +71,8 @@ class User < ActiveRecord::Base
   
   #social login user
   def self.create_from_hash(hash)        
-    user = User.new({:login => hash['user_info']['name'].to_s.downcase, :social_login => true})
+    user = User.new({:login => hash['user_info']['name'].to_s.downcase})
+    user.social_login = true
     user.save(false)
     user.activate!
     user.reset_persistence_token! #set persistence_token else sessions will not be created
@@ -74,12 +80,12 @@ class User < ActiveRecord::Base
   end
   
   def facebook          
-    @fb_user ||= FbGraph::User.me(self.authorizations.find_by_provider('facebook').token)
+    @fb_user ||= FbGraph::User.me(self.authorization.token)
   end
   
   def twitter
     unless @twitter_user
-      provider = self.authorizations.find_by_provider('twitter')
+      provider = self.authorization
       @twitter_user = Twitter::Client.new(:oauth_token => provider.token, :oauth_token_secret => provider.secret) rescue nil
     end
     @twitter_user

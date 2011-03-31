@@ -1,5 +1,5 @@
 body {
-  background-color: #4B7399;
+  background-color: #FFFFFF;
   font-family: Verdana, Helvetica, Arial;
   font-size: 14px;
 }
@@ -25,6 +25,7 @@ a {
   padding: 20px 40px;
   border: solid 1px black;
   margin-top: 20px;
+  background-color: #F2F2F2;
 }
 
 #flash_notice, #flash_error, #flash_alert, #flash_success {

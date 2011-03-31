@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   end
   
   def create
+    params[:user][:social_login] = false
     @user = User.new(params[:user])
     if @user.save_without_session_maintenance
       flash[:notice] = "User sign up successfully! Please check your mail and follow instructions in that mail."      
@@ -34,16 +35,26 @@ class UsersController < ApplicationController
 
   def edit
     @user = @current_user
-    @authorizations = current_user.authorizations if current_user
+    @authorizations = current_user.authorization if current_user
   end
   
   def update
-    @user = @current_user 
-    if @user.update_attributes(params[:user])
-      flash[:notice] = "User details updated!"
-      redirect_to user_path(@user.id)
+    @user = @current_user
+    if !@user.social_login
+      if @user.update_attributes(params[:user])
+        flash[:notice] = "User details updated!"
+        redirect_to user_path(@user.id)
+      else
+        render :action => :edit
+      end
     else
-      render :action => :edit
+      @user.email = params[:user][:email]     
+      if @user.save        
+        flash[:notice] = "User details updated!"
+        redirect_to user_path(@user.id)
+      else
+        render :action => :edit
+      end
     end
   end
   
