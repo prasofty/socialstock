@@ -29,6 +29,7 @@ Socialstock::Application.routes.draw do
       get 'get_facebook_friends'
       get 'get_facebook_status'
       get 'get_twitter_followers'
+      post 'get_contacts'
     end
   end
   

@@ -8,6 +8,8 @@ class FriendsController < ApplicationController
     elsif auth_provider.provider == 'twitter'
       @followers = current_user.twitter_followers
       @t_status = current_user.twitter_status
+    elsif auth_provider.provider == 'open_id'
+      @contacts = current_user.contacts
     end
   end
   
@@ -62,6 +64,19 @@ class FriendsController < ApplicationController
       t = TwitterFollower.find_by_twitter_id_and_user_id(follower.id, current_user.id)
       t.update_attributes({:name => follower.name}) if !t.nil?
       t = TwitterFollower.create({:user_id => current_user.id, :twitter_id => follower.id, :name => follower.name, :screen_name => follower.screen_name}) if t.nil?
+    end
+    
+    redirect_to friends_path(:source => 'twitter')
+  end
+  
+  def get_contacts
+    
+    @contacts = Contacts::Gmail.new(params[:username], params[:password]).contacts
+    
+    @contacts.each do |contact|
+      c = Contact.find_by_email(contact[1])
+      c.update_attributes({:username => contact[0]}) if !c.nil?
+      Contact.create({:user_id => current_user.id, :source => 'gmail', :username => contact[0], :email => contact[1]})
     end
     
     redirect_to friends_path(:source => 'twitter')

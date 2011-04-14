@@ -2,7 +2,7 @@ class AuthorizationsController < ApplicationController
   before_filter :require_user, :only => [:destroy]
   
   def create
-    omniauth = request.env['omniauth.auth']
+    omniauth = request.env['omniauth.auth']    
     @auth = Authorization.find_from_hash(omniauth)    
     if current_user
       flash[:notice] = "Successfully added #{omniauth['provider']} authentication"

@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   has_many :twitter_followers
   has_one :twitter_status
   
+  has_many :contacts
+  
   acts_as_authentic do |c|
     c.merge_validates_length_of_password_field_options({:minimum => 6})
     c.ignore_blank_passwords = true

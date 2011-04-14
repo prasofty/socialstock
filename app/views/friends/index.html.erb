@@ -1,6 +1,9 @@
 <% title 'Facebook Friends' if auth_provider.provider == 'facebook'%>
 <% title 'Twitter followers' if auth_provider.provider == 'twitter'%>
+<% title 'Contacts'  if auth_provider.provider == 'open_id'%>
 
 <%= render :partial => 'facebook_friends', :locals => {:fb_friends => @fb_friends, :fb_status => @fb_status} if auth_provider.provider == 'facebook'%>
 
 <%= render :partial => 'twitter_followers', :locals => {:followers => @followers, :t_status => @t_status} if auth_provider.provider == 'twitter'%>
+
+<%= render :partial => 'open_id', :locals => {:contacts => @contacts} if auth_provider.provider == 'open_id'%>

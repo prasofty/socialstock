@@ -12,6 +12,9 @@ gem 'authlogic'
 gem 'omniauth'
 gem 'fb_graph'
 gem 'twitter'
+gem 'contacts'
+
+gem 'hpricot'
 
 #For layout
 gem 'nifty-generators', '>= 0.4.0'
