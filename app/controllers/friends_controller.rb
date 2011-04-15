@@ -79,6 +79,6 @@ class FriendsController < ApplicationController
       Contact.create({:user_id => current_user.id, :source => 'gmail', :username => contact[0], :email => contact[1]})
     end
     
-    redirect_to friends_path(:source => 'twitter')
+    redirect_to friends_path(:source => 'open_id')
   end
 end
